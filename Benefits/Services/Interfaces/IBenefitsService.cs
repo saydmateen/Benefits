@@ -8,6 +8,6 @@ namespace Benefits.Services.Interfaces
 {
     public interface IBenefitsService
     {
-        public void CalculateCosts(IEmployee[] employees);
+        public Task<object> CalculateCost(IEmployee[] employees);
     }
 }

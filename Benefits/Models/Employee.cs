@@ -12,6 +12,10 @@ namespace Benefits.Models
         public double Salary { get; set; }
         public double BenefitsCost { get; set; }
         public IPerson[] Dependents { get; set; }
-
+        public int PersonId { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public int Age { get; set; }
+        public string Relationship { get; set; }
     }
 }

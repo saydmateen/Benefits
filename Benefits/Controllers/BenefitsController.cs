@@ -13,7 +13,7 @@ namespace Benefits.Controllers
     public class BenefitsController : ControllerBase
     {
         private readonly ILogger<BenefitsController> _logger;
-        private IBenefitsService _benefitsService;
+        private readonly IBenefitsService _benefitsService;
 
         public BenefitsController(ILogger<BenefitsController> logger, IBenefitsService benefitsService)
         {
@@ -22,14 +22,13 @@ namespace Benefits.Controllers
         }
 
         [HttpPost]
-        [Route("preview")]
-        public async Task<IActionResult> PreviewCosts(Employee[] employees)
+        [Route("previewcosts")]
+        public async Task<IActionResult> PreviewListCosts(Employee[] employees)
         {
-            // TODO update controller 
             try
             {
-                _benefitsService.CalculateCosts(employees);
-                return Ok("test");
+                var result = await _benefitsService.CalculateCost(employees);
+                return Ok(result);
             }
             catch (Exception e)
             {

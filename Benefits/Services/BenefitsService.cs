@@ -10,9 +10,36 @@ namespace Benefits.Services
 {
     public class BenefitsService : IBenefitsService
     {
-        public void CalculateCosts(IEmployee[] employees)
+        private const int _yearlyPaychecks = 26;
+        private const int _benefitsCostEmployee = 1000;
+        private const int _benefitsCostDependent = 500;
+
+        public async Task<object> CalculateCost(IEmployee[] employees)
         {
-            // TODO Add calculation
+           return await Task.Run<object>(() =>
+           {
+               const int paycheckAmount = 2000;
+               const string discountLetter = "A";
+               const double discountPercent = 0.1;
+               int yearlySalary = paycheckAmount * _yearlyPaychecks;
+
+               foreach (var employee in employees)
+               {
+                   // TODO handle empty dependents
+                   double employeeBenefitsCost = employee.FirstName.StartsWith(discountLetter, StringComparison.OrdinalIgnoreCase) ?
+                           _benefitsCostEmployee - (_benefitsCostEmployee * discountPercent) :
+                           _benefitsCostEmployee;
+                   double dependentsTotalCost = employee.Dependents.Length * _benefitsCostDependent;
+
+                   int dependentsNameDiscount = employee.Dependents.Count(d => d.FirstName.StartsWith(discountLetter, StringComparison.OrdinalIgnoreCase));                   
+                   dependentsTotalCost -= dependentsNameDiscount * (_benefitsCostDependent * discountPercent);
+
+                   employee.BenefitsCost = employeeBenefitsCost + dependentsTotalCost;
+                   employee.Salary = yearlySalary;
+               }
+
+               return employees;
+           });
         }
     }
 }

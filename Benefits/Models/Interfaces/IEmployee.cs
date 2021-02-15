@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Benefits.Models.Interfaces
 {
-    public interface IEmployee
+    public interface IEmployee : IPerson
     {
         public int EmployeeId { get; set; }
         public double Salary { get; set; }
