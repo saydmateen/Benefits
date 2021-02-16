@@ -9,5 +9,6 @@ namespace Benefits.Services.Interfaces
     public interface IBenefitsService
     {
         public Task<object> CalculateCost(IEmployee[] employees);
+        public Task<object> GetEmployees();
     }
 }

@@ -21,6 +21,22 @@ namespace Benefits.Controllers
             _benefitsService = benefitsService;
         }
 
+        [HttpGet]
+        [Route("employees")]
+        public async Task<IActionResult> GetEmployees()
+        {
+            try
+            {
+                var result = await _benefitsService.GetEmployees();
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+                return BadRequest(e.Message);
+            }
+        }
+
         [HttpPost]
         [Route("previewcosts")]
         public async Task<IActionResult> PreviewListCosts(Employee[] employees)

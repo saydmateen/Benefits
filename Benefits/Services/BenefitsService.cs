@@ -41,5 +41,18 @@ namespace Benefits.Services
                return employees;
            });
         }
+
+        public async Task<object> GetEmployees()
+        {
+            return await Task.Run<object>(() =>
+            {
+                var employees = new Employee[] {
+                    new Employee { FirstName = "Luke", LastName = "Skywalker", EmployeeId = 1, Salary = 5000, Age = 30 },
+                    new Employee { FirstName = "Rick", LastName = "Sanchez", EmployeeId = 2, Salary = 6000, Age = 50 }
+                };
+
+                return employees;
+            });
+        }
     }
 }
