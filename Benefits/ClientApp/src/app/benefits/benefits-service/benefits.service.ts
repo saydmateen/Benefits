@@ -9,8 +9,41 @@ import { Employee } from "../models/employee";
 export class BenefitsService {
   constructor(private readonly apiService: ApiService) {}
 
-  getEmployees(): Observable<Employee[]> {
-    return this.apiService.sendRequest<Employee[]>("benefits/employees", "GET");
+  getAllEmployees(): Observable<Employee[]> {
+    return this.apiService.sendRequest<Employee[]>(
+      "benefits/employeesAll",
+      "GET"
+    );
+  }
+
+  getEmployee(id: number): Observable<Employee> {
+    return this.apiService.sendRequest<Employee>(
+      `benefits/employee/${id}`,
+      "GET"
+    );
+  }
+
+  createEmployee(employee: Employee): Observable<Employee> {
+    return this.apiService.sendRequest<Employee>(
+      "benefits/employee",
+      "POST",
+      employee
+    );
+  }
+
+  updateEmployee(employee: Employee): Observable<Employee> {
+    return this.apiService.sendRequest<Employee>(
+      "benefits/employee",
+      "PUT",
+      employee
+    );
+  }
+
+  deleteEmployee(id: number): Observable<Employee> {
+    return this.apiService.sendRequest<Employee>(
+      `benefits/employee/${id}`,
+      "DELETE"
+    );
   }
 
   getCostsPreview(employees: Employee[]) {

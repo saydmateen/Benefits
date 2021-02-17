@@ -42,16 +42,56 @@ namespace Benefits.Services
            });
         }
 
-        public async Task<object> GetEmployees()
+        public async Task<object> GetAllEmployees()
         {
             return await Task.Run<object>(() =>
             {
+                // TODO
                 var employees = new Employee[] {
-                    new Employee { FirstName = "Luke", LastName = "Skywalker", EmployeeId = 1, Salary = 5000, Age = 30 },
-                    new Employee { FirstName = "Rick", LastName = "Sanchez", EmployeeId = 2, Salary = 6000, Age = 50 }
+                    new Employee { FirstName = "Luke", LastName = "Skywalker", EmployeeId = 1, BenefitsCost = 1000, Salary = 5000, Age = 30, Dependents = new IPerson[0] },
+                    new Employee { FirstName = "Rick", LastName = "Sanchez", EmployeeId = 2, BenefitsCost = 1000, Salary = 6000, Age = 50, Dependents = new IPerson[0] }
                 };
 
                 return employees;
+            });
+        }
+
+        public async Task<object> GetEmployee(int id)
+        {
+            return await Task.Run<object>(() =>
+            {
+                // TODO
+                var employee = new Employee { FirstName = "Luke", LastName = "Skywalker", EmployeeId = 1, BenefitsCost = 1000, Salary = 5000, Age = 30, Dependents = new IPerson[0] };
+                return employee;
+            });
+        }
+
+        public async Task<object> CreateEmployee(IEmployee employee)
+        {
+            return await Task.Run<object>(() =>
+            {
+                // TODO
+                var employees = new Employee { FirstName = "Rick", LastName = "Sanchez", EmployeeId = 2, BenefitsCost = 1000, Salary = 6000, Age = 50, Dependents = new IPerson[0] };
+                return employees;
+            });
+        }
+
+        public async Task<object> UpdateEmployee(IEmployee employee)
+        {
+            return await Task.Run<object>(() =>
+            {
+                // TODO
+                var employees = new Employee { FirstName = "Rick", LastName = "Sanchez", EmployeeId = 2, BenefitsCost = 1000, Salary = 6000, Age = 50, Dependents = new IPerson[0] };
+                return employees;
+            });
+        }
+
+        public async Task<object> DeleteEmployee(int id)
+        {
+            return await Task.Run<object>(() =>
+            {
+                //TODO
+                return true;
             });
         }
     }

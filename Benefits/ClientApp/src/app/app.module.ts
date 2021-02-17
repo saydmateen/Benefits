@@ -8,6 +8,9 @@ import { AppComponent } from "./app.component";
 import { HomeComponent } from "./home/home.component";
 import { SharedModule } from "./shared/shared.module";
 import { CoreModule } from "./core/core.module";
+import { BenefitsModule } from "./benefits/benefits.module";
+import { EmployeeHomeComponent } from "./benefits/employee-home/employee-home.component";
+import { EmployeeDetailComponent } from "./benefits/employee-detail/employee-detail.component";
 
 @NgModule({
   declarations: [AppComponent, HomeComponent],
@@ -17,13 +20,11 @@ import { CoreModule } from "./core/core.module";
     CoreModule,
     FormsModule,
     SharedModule,
+    BenefitsModule,
     RouterModule.forRoot([
       { path: "", component: HomeComponent, pathMatch: "full" },
-      {
-        path: "benefits",
-        loadChildren: () =>
-          import("./benefits/benefits.module").then((m) => m.BenefitsModule),
-      },
+      { path: "benefits", component: EmployeeHomeComponent },
+      { path: "benefits/:id", component: EmployeeDetailComponent },
     ]),
   ],
   providers: [],

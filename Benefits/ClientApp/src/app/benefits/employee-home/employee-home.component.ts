@@ -3,6 +3,7 @@ import { Subscription } from "rxjs";
 import { BenefitsService } from "../benefits-service/benefits.service";
 import { Employee } from "../models/employee";
 import { map } from "rxjs/operators";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-employee-home",
@@ -11,20 +12,41 @@ import { map } from "rxjs/operators";
 })
 export class EmployeeHomeComponent implements OnInit, OnDestroy {
   public employees: Employee[] = [];
-  public _subs: Subscription = Subscription.EMPTY;
+  public _subs: Subscription[] = [];
+  public benefitsTotal: number = 0;
 
-  constructor(private benefitsService: BenefitsService) {}
+  constructor(
+    private benefitsService: BenefitsService,
+    private routerService: Router
+  ) {}
 
   ngOnInit() {
-    this._subs = this.benefitsService
-      .getEmployees()
-      .pipe(map((x) => x as Employee[]))
-      .subscribe((results) => {
-        this.employees = results;
-      });
+    this._subs.push(
+      this.benefitsService
+        .getAllEmployees()
+        .pipe(map((x) => x as Employee[]))
+        .subscribe((results) => {
+          this.employees = results;
+          this.employees.forEach((e) => {
+            this.benefitsTotal += e.benefitsCost;
+          });
+        })
+    );
   }
 
   ngOnDestroy() {
-    this._subs.unsubscribe();
+    this._subs.forEach((s) => s.unsubscribe());
+  }
+
+  onSelect(employee: Employee) {
+    this.routerService.navigate(["/benefits/", employee.employeeId]);
+  }
+
+  createEmployee() {
+    this.routerService.navigate(["/benefits/", 0]);
+  }
+
+  deleteEmployee() {
+    //TODO
   }
 }

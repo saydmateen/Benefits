@@ -1,6 +1,15 @@
-<h1 id="tableLabel">Employees List</h1>
+<h2 id="tableLabel">Employees List</h2>
 <p *ngIf="!employees">Loading...</p>
-
+<div class="form-row">
+  <div class="form-group col-md-12">
+    <input
+      class="btn btn-success float-right"
+      type="button"
+      (click)="createEmployee()"
+      value="Create Employee"
+    />
+  </div>
+</div>
 <table
   class="table table-striped"
   aria-labelledby="tableLabel"
@@ -14,16 +23,31 @@
       <td>Dependents Count</td>
       <td>Salary</td>
       <td>Benefits Cost</td>
+      <td>Action</td>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let employee of employees">
+    <tr *ngFor="let employee of employees" (click)="onSelect(employee)">
       <td>{{ employee.employeeId }}</td>
       <td>{{ employee.firstName }}</td>
       <td>{{ employee.lastName }}</td>
       <td>{{ employee.dependents.length }}</td>
       <td>{{ employee.salary }}</td>
       <td>{{ employee.benefitsCost }}</td>
+      <td>
+        <input
+          class="btn btn-danger"
+          type="button"
+          (click)="DeleteEmployee($index)"
+          value="Delete"
+        />
+      </td>
     </tr>
   </tbody>
+  <tfoot>
+    <tr>
+      <th id="total" colspan="5">Total :</th>
+      <td>{{ benefitsTotal }}</td>
+    </tr>
+  </tfoot>
 </table>

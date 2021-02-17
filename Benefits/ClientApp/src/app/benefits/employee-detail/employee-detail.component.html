@@ -1,1 +1,146 @@
-<p>employee-detail works!</p>
+<h3 *ngIf="id === 0">Create Employee</h3>
+<h3 *ngIf="id > 0">Update Employee</h3>
+<div class="form-row">
+  <div class="form-group col-md-12">
+    <input
+      class="btn btn-success float-right"
+      type="button"
+      (click)="saveEmployee()"
+      value="Save Employee"
+    />
+  </div>
+</div>
+<div class="form-row">
+  <div class="form-group col-md-4">
+    <label for="inputCity">First Name</label>
+    <input
+      type="text"
+      [(ngModel)]="employee.firstName"
+      class="form-control"
+      placeholder="First Name"
+      aria-label="FirstName"
+      aria-describedby="basic-addon1"
+      required
+    />
+  </div>
+  <div class="form-group col-md-4">
+    <label for="inputCity">Last Name</label>
+    <input
+      type="text"
+      [(ngModel)]="employee.lastName"
+      class="form-control"
+      placeholder="Last Name"
+      aria-label="LastName"
+      aria-describedby="inputGroup-sizing-default"
+      required
+    />
+  </div>
+  <div class="form-group col-md-4">
+    <label for="inputCity">Age</label>
+    <input
+      type="number"
+      [(ngModel)]="employee.age"
+      class="form-control"
+      aria-label="Age"
+      aria-describedby="basic-addon1"
+    />
+  </div>
+</div>
+<br />
+<h5>Add Dependents (Optional):</h5>
+<div class="form-row">
+  <div class="form-group col-md-4">
+    <label for="inputCity">First Name</label>
+    <input
+      type="text"
+      [(ngModel)]="dependentNew.firstName"
+      class="form-control"
+      placeholder="First Name"
+      aria-label="FirstName"
+      aria-describedby="basic-addon1"
+      required
+    />
+  </div>
+  <div class="form-group col-md-4">
+    <label for="inputCity">Last Name</label>
+    <input
+      type="text"
+      [(ngModel)]="dependentNew.lastName"
+      class="form-control"
+      placeholder="Last Name"
+      aria-label="LastName"
+      aria-describedby="inputGroup-sizing-default"
+      required
+    />
+  </div>
+  <div class="form-group col-md-4">
+    <label for="inputCity">Age</label>
+    <input
+      type="number"
+      [(ngModel)]="dependentNew.age"
+      class="form-control"
+      aria-label="Age"
+      aria-describedby="basic-addon1"
+    />
+  </div>
+</div>
+<div class="form-row">
+  <div class="form-group col-md-4">
+    <label for="relationship">Relationship</label>
+    <select class="form-control" id="relationship" required>
+      <option
+        *ngFor="let type of relationshipType"
+        [value]="dependentNew.relationship"
+      >
+        {{ type.value }}
+      </option>
+    </select>
+  </div>
+</div>
+<div class="form-row">
+  <div class="form-group col-md-12">
+    <input
+      class="btn btn-secondary float-right"
+      type="button"
+      (click)="addDependent()"
+      value="Add Dependent"
+    />
+  </div>
+</div>
+<h5>Dependents List:</h5>
+<p *ngIf="!employee.dependents">No Dependents</p>
+
+<table
+  class="table table-striped"
+  aria-labelledby="tableLabel"
+  *ngIf="employee.dependents"
+>
+  <thead>
+    <tr>
+      <td>First Name</td>
+      <td>Last Name</td>
+      <td>Age</td>
+      <td>Relationship</td>
+      <td>Action</td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr
+      *ngFor="let dependent of employee.dependents"
+      (click)="onSelect(dependent)"
+    >
+      <td>{{ dependent.firstName }}</td>
+      <td>{{ dependent.lastName }}</td>
+      <td>{{ dependent.age }}</td>
+      <td>{{ dependent.relationship }}</td>
+      <td>
+        <input
+          class="btn btn-danger"
+          type="button"
+          (click)="Remove($index)"
+          value="Remove"
+        />
+      </td>
+    </tr>
+  </tbody>
+</table>
