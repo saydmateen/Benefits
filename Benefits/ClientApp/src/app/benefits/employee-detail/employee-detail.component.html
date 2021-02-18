@@ -87,11 +87,12 @@
 <div class="form-row">
   <div class="form-group col-md-4">
     <label for="relationship">Relationship</label>
-    <select class="form-control" id="relationship" required>
-      <option
-        *ngFor="let type of relationshipType"
-        [value]="dependentNew.relationship"
-      >
+    <select
+      class="form-control"
+      id="relationship"
+      [(ngModel)]="dependentNew.relationship"
+    >
+      <option *ngFor="let type of relationshipType" [value]="type.value">
         {{ type.value }}
       </option>
     </select>
@@ -126,7 +127,7 @@
   </thead>
   <tbody>
     <tr
-      *ngFor="let dependent of employee.dependents"
+      *ngFor="let dependent of employee.dependents; let i = index"
       (click)="onSelect(dependent)"
     >
       <td>{{ dependent.firstName }}</td>
@@ -137,8 +138,8 @@
         <input
           class="btn btn-danger"
           type="button"
-          (click)="Remove($index)"
-          value="Remove"
+          (click)="deleteEmployee($event, i)"
+          value="Delete"
         />
       </td>
     </tr>

@@ -1,17 +1,15 @@
-﻿using Benefits.Web.Models.Interfaces;
+﻿using System.Collections.Generic;
 
-namespace Benefits.Web.Models
+namespace Benefits.DataAccess.EFModels
 {
-    public class Employee : IEmployee
+    public partial class Employee 
     {
         public int EmployeeId { get; set; }
         public double Salary { get; set; }
         public double BenefitsCost { get; set; }
-        public Person[] Dependents { get; set; }
-        public int PersonId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public int Age { get; set; }
-        public string Relationship { get; set; }
+        public virtual ICollection<Person> Dependents { get; set; }
     }
 }

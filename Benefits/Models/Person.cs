@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Benefits.Web.Models
 {
-    public interface IPerson
+    public class Person : IPerson
     {
         public int PersonId { get; set; }
         public string FirstName { get; set; }

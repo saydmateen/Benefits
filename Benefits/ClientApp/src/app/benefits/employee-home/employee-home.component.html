@@ -27,7 +27,10 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let employee of employees" (click)="onSelect(employee)">
+    <tr
+      *ngFor="let employee of employees; let i = index"
+      (click)="onSelect(employee)"
+    >
       <td>{{ employee.employeeId }}</td>
       <td>{{ employee.firstName }}</td>
       <td>{{ employee.lastName }}</td>
@@ -38,7 +41,7 @@
         <input
           class="btn btn-danger"
           type="button"
-          (click)="DeleteEmployee($index)"
+          (click)="deleteEmployee($event, i)"
           value="Delete"
         />
       </td>
@@ -46,8 +49,8 @@
   </tbody>
   <tfoot>
     <tr>
-      <th id="total" colspan="5">Total :</th>
-      <td>{{ benefitsTotal }}</td>
+      <th colspan="8"></th>
     </tr>
   </tfoot>
 </table>
+<p><b>Total Benefits Cost: </b>{{ benefitsTotal }}</p>

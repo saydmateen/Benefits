@@ -2,8 +2,11 @@ import { IPerson } from "./person";
 
 export interface IEmployee {
   employeeId?: number;
-  salary: number;
-  benefitsCost: number;
+  salary?: number;
+  benefitsCost?: number;
+  firstName: string;
+  lastName: string;
+  age: number;
   dependents: IPerson[];
 }
 
@@ -58,7 +61,8 @@ export class Employee implements IPerson, IEmployee {
   get dependents(): IPerson[] {
     return this._dependents;
   }
-  set deendents(value: IPerson[]) {
+
+  set dependents(value: IPerson[]) {
     this._dependents = value;
   }
 }

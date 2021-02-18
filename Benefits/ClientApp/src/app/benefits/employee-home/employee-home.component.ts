@@ -46,7 +46,20 @@ export class EmployeeHomeComponent implements OnInit, OnDestroy {
     this.routerService.navigate(["/benefits/", 0]);
   }
 
-  deleteEmployee() {
-    //TODO
+  deleteEmployee(event: Event, index: number) {
+    event.stopPropagation();
+    this._subs.push(
+      this.benefitsService
+        .deleteEmployee(this.employees[index].employeeId)
+        .subscribe((results) => {
+          if (results) {
+            this.employees.splice(index, 1);
+            this.benefitsTotal = 0;
+            this.employees.forEach((e) => {
+              this.benefitsTotal += e.benefitsCost;
+            });
+          }
+        })
+    );
   }
 }

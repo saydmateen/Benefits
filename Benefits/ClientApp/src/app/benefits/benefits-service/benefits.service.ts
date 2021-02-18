@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { ApiService } from "src/app/core/api.service";
-import { Employee } from "../models/employee";
+import { Employee, IEmployee } from "../models/employee";
 
 @Injectable({
   providedIn: "root",
@@ -23,7 +23,7 @@ export class BenefitsService {
     );
   }
 
-  createEmployee(employee: Employee): Observable<Employee> {
+  createEmployee(employee: IEmployee): Observable<Employee> {
     return this.apiService.sendRequest<Employee>(
       "benefits/employee",
       "POST",
@@ -31,7 +31,7 @@ export class BenefitsService {
     );
   }
 
-  updateEmployee(employee: Employee): Observable<Employee> {
+  updateEmployee(employee: IEmployee): Observable<Employee> {
     return this.apiService.sendRequest<Employee>(
       "benefits/employee",
       "PUT",
@@ -43,14 +43,6 @@ export class BenefitsService {
     return this.apiService.sendRequest<Employee>(
       `benefits/employee/${id}`,
       "DELETE"
-    );
-  }
-
-  getCostsPreview(employees: Employee[]) {
-    return this.apiService.sendRequest<Employee[]>(
-      "benefits/previewCosts",
-      "POST",
-      employees
     );
   }
 }

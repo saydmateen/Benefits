@@ -1,12 +1,11 @@
-﻿using Benefits.Models;
-using Benefits.Models.Interfaces;
-using Benefits.Services.Interfaces;
+﻿using Benefits.Web.Models;
+using Benefits.Web.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 
-namespace Benefits.Controllers
+namespace Benefits.Web.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -38,7 +37,7 @@ namespace Benefits.Controllers
         }
 
         [HttpGet]
-        [Route("employee")]
+        [Route("employee/{id}")]
         public async Task<IActionResult> GetEmployee(int id)
         {
             try
@@ -54,8 +53,8 @@ namespace Benefits.Controllers
         }
 
         [HttpPost]
-        [Route("employees")]
-        public async Task<IActionResult> CreateEmployees([FromBody]Employee employee)
+        [Route("employee")]
+        public async Task<IActionResult> CreateEmployee([FromBody]Employee employee)
         {
             try
             {
@@ -70,8 +69,8 @@ namespace Benefits.Controllers
         }
 
         [HttpPut]
-        [Route("employees")]
-        public async Task<IActionResult> UpdateEmployees([FromBody]Employee employee)
+        [Route("employee")]
+        public async Task<IActionResult> UpdateEmployee([FromBody]Employee employee)
         {
             try
             {
@@ -86,28 +85,12 @@ namespace Benefits.Controllers
         }
 
         [HttpDelete]
-        [Route("employees")]
-        public async Task<IActionResult> DeleteEmployees(int id)
+        [Route("employee/{id}")]
+        public async Task<IActionResult> DeleteEmployee(int id)
         {
             try
             {
                 var result = await _benefitsService.DeleteEmployee(id);
-                return Ok(result);
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e.Message);
-                return BadRequest(e.Message);
-            }
-        }
-
-        [HttpPost]
-        [Route("previewcosts")]
-        public async Task<IActionResult> PreviewListCosts(Employee[] employees)
-        {
-            try
-            {
-                var result = await _benefitsService.CalculateCost(employees);
                 return Ok(result);
             }
             catch (Exception e)

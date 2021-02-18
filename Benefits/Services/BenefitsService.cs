@@ -1,98 +1,76 @@
-﻿using Benefits.Models;
-using Benefits.Models.Interfaces;
-using Benefits.Services.Interfaces;
+﻿using Benefits.Web.Repositories;
+using Benefits.Web.Services.Interfaces;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Benefits.Web.Models.Interfaces;
+using Benefits.Web.Models;
 
-namespace Benefits.Services
+namespace Benefits.Web.Services
 {
     public class BenefitsService : IBenefitsService
     {
+        private IBenefitsRepository _benefitsRepository;
         private const int _yearlyPaychecks = 26;
         private const int _benefitsCostEmployee = 1000;
         private const int _benefitsCostDependent = 500;
 
-        public async Task<object> CalculateCost(IEmployee[] employees)
+        public BenefitsService(IBenefitsRepository benefitsRepository)
         {
-           return await Task.Run<object>(() =>
-           {
-               const int paycheckAmount = 2000;
-               const string discountLetter = "A";
-               const double discountPercent = 0.1;
-               int yearlySalary = paycheckAmount * _yearlyPaychecks;
-
-               foreach (var employee in employees)
-               {
-                   // TODO handle empty dependents
-                   double employeeBenefitsCost = employee.FirstName.StartsWith(discountLetter, StringComparison.OrdinalIgnoreCase) ?
-                           _benefitsCostEmployee - (_benefitsCostEmployee * discountPercent) :
-                           _benefitsCostEmployee;
-                   double dependentsTotalCost = employee.Dependents.Length * _benefitsCostDependent;
-
-                   int dependentsNameDiscount = employee.Dependents.Count(d => d.FirstName.StartsWith(discountLetter, StringComparison.OrdinalIgnoreCase));                   
-                   dependentsTotalCost -= dependentsNameDiscount * (_benefitsCostDependent * discountPercent);
-
-                   employee.BenefitsCost = employeeBenefitsCost + dependentsTotalCost;
-                   employee.Salary = yearlySalary;
-               }
-
-               return employees;
-           });
+            _benefitsRepository = benefitsRepository;
         }
 
         public async Task<object> GetAllEmployees()
         {
-            return await Task.Run<object>(() =>
-            {
-                // TODO
-                var employees = new Employee[] {
-                    new Employee { FirstName = "Luke", LastName = "Skywalker", EmployeeId = 1, BenefitsCost = 1000, Salary = 5000, Age = 30, Dependents = new IPerson[0] },
-                    new Employee { FirstName = "Rick", LastName = "Sanchez", EmployeeId = 2, BenefitsCost = 1000, Salary = 6000, Age = 50, Dependents = new IPerson[0] }
-                };
-
-                return employees;
-            });
+            return await _benefitsRepository.SelectAllEmployees();
         }
 
         public async Task<object> GetEmployee(int id)
         {
-            return await Task.Run<object>(() =>
-            {
-                // TODO
-                var employee = new Employee { FirstName = "Luke", LastName = "Skywalker", EmployeeId = 1, BenefitsCost = 1000, Salary = 5000, Age = 30, Dependents = new IPerson[0] };
-                return employee;
-            });
+            return await _benefitsRepository.SelectEmployee(id);
         }
 
         public async Task<object> CreateEmployee(IEmployee employee)
         {
-            return await Task.Run<object>(() =>
-            {
-                // TODO
-                var employees = new Employee { FirstName = "Rick", LastName = "Sanchez", EmployeeId = 2, BenefitsCost = 1000, Salary = 6000, Age = 50, Dependents = new IPerson[0] };
-                return employees;
-            });
+            var employeeCalc = CalculateBenefitCost(employee);
+            return await _benefitsRepository.CreateEmployee(employeeCalc);
         }
 
         public async Task<object> UpdateEmployee(IEmployee employee)
         {
-            return await Task.Run<object>(() =>
-            {
-                // TODO
-                var employees = new Employee { FirstName = "Rick", LastName = "Sanchez", EmployeeId = 2, BenefitsCost = 1000, Salary = 6000, Age = 50, Dependents = new IPerson[0] };
-                return employees;
-            });
+            var employeeCalc = CalculateBenefitCost(employee);
+            return await _benefitsRepository.UpdateEmployee(employeeCalc);
         }
 
         public async Task<object> DeleteEmployee(int id)
         {
-            return await Task.Run<object>(() =>
+            return await _benefitsRepository.DeleteEmployee(id);
+        }
+
+        public IEmployee CalculateBenefitCost(IEmployee employee)
+        {
+            const int paycheckAmount = 2000;
+            const string discountLetter = "A";
+            const double discountPercent = 0.1;
+            int yearlySalary = paycheckAmount * _yearlyPaychecks;
+
+            if (employee.Dependents == null)
             {
-                //TODO
-                return true;
-            });
+                employee.Dependents = new Person[0];
+            }
+
+            double employeeBenefitsCost = employee.FirstName.StartsWith(discountLetter, StringComparison.OrdinalIgnoreCase) ?
+                    _benefitsCostEmployee - (_benefitsCostEmployee * discountPercent) :
+                    _benefitsCostEmployee;
+            double dependentsTotalCost = employee.Dependents.Length * _benefitsCostDependent;
+
+            int dependentsNameDiscount = employee.Dependents.Count(d => d.FirstName.StartsWith(discountLetter, StringComparison.OrdinalIgnoreCase));
+            dependentsTotalCost -= dependentsNameDiscount * (_benefitsCostDependent * discountPercent);
+
+            employee.BenefitsCost = employeeBenefitsCost + dependentsTotalCost;
+            employee.Salary = yearlySalary;
+           
+            return employee;
         }
     }
 }
