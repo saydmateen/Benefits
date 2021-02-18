@@ -114,7 +114,7 @@ namespace BenefitsTest
 
 
         [Test]
-        public async Task CalculateCosts_Dependents_WithDiscount_Success()
+        public void CalculateCosts_Dependents_WithDiscount_Success()
         {
             Employee emp = new Employee {
                 FirstName = "Anakin",

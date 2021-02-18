@@ -32,7 +32,7 @@ namespace Benefits.Web.Controllers
             catch (Exception e)
             {
                 _logger.LogError(e.Message);
-                return BadRequest(e.Message);
+                return BadRequest("Error getting all employees.");
             }
         }
 
@@ -48,7 +48,7 @@ namespace Benefits.Web.Controllers
             catch (Exception e)
             {
                 _logger.LogError(e.Message);
-                return BadRequest(e.Message);
+                return BadRequest("Error getting employee.");
             }
         }
 
@@ -64,7 +64,7 @@ namespace Benefits.Web.Controllers
             catch (Exception e)
             {
                 _logger.LogError(e.Message);
-                return BadRequest(e.Message);
+                return BadRequest("Error creating employee.");
             }
         }
 
@@ -80,7 +80,7 @@ namespace Benefits.Web.Controllers
             catch (Exception e)
             {
                 _logger.LogError(e.Message);
-                return BadRequest(e.Message);
+                return BadRequest("Error updating employee.");
             }
         }
 
@@ -96,7 +96,7 @@ namespace Benefits.Web.Controllers
             catch (Exception e)
             {
                 _logger.LogError(e.Message);
-                return BadRequest(e.Message);
+                return BadRequest("Error deleting employee.");
             }
         }
     }

@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { Observable, Subscription } from "rxjs";
+import { Subscription } from "rxjs";
 import { map } from "rxjs/internal/operators/map";
 import { BenefitsService } from "../benefits-service/benefits.service";
 import { Employee, IEmployee } from "../models/employee";
